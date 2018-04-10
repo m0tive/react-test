@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import io from 'socket.io-client'
+
 class App extends Component {
   render() {
     return (
@@ -17,5 +19,11 @@ class App extends Component {
     );
   }
 }
+
+// eslint-disable-next-line no-restricted-globals
+const socket = io(`${location.protocol}//${location.hostname}:4444`, { path: '/api' });
+
+socket.on('connect', () => console.log('cool'));
+
 
 export default App;

@@ -4,6 +4,8 @@ import './App.css';
 
 import io from 'socket.io-client'
 
+import Clock from './Clock';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +35,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to <s>React</s> Mars</h1>
+          <Clock />
         </header>
+        <h2>Rovers</h2>
         <ul>
           {this.state.rovers.map(rover => <li key={rover.name}>{rover.name}, {rover.state}</li> )}
         </ul>

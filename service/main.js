@@ -9,6 +9,7 @@ io.on('connection', socket => {
 const rovers = [
     {name: "spirit", state: 'offline'},
     {name: "opportunity", state: 'offline'},
+    {name: "curiosity", state: 'offline'},
 ]
 
 const states = Object.freeze([
@@ -39,9 +40,13 @@ app.get('/*', (_req, res) => res.status(404).end());
 
 // randomize state
 setInterval(function randomize_state() {
+    const currentStateIndex = () => Math.round(Math.random() * (states.length-2)) + 1;
+
     const opportunity = rovers.find(v => v.name === 'opportunity')
-    const currentStateIndex = Math.round(Math.random() * (states.length-2)) + 1;
-    opportunity.state = states[currentStateIndex];
+    opportunity.state = states[currentStateIndex()];
+
+    const curiosity = rovers.find(v => v.name === 'curiosity')
+    curiosity.state = states[currentStateIndex()];
 }, 1000);
 
 

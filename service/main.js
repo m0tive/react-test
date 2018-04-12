@@ -7,9 +7,18 @@ io.on('connection', socket => {
 });
 
 const rovers = [
-    {name: "spirit"},
-    {name: "opportunity"},
+    {name: "spirit", state: 'offline'},
+    {name: "opportunity", state: 'offline'},
 ]
+
+const states = Object.freeze([
+    'offline',
+    'thinking',
+    'sleeping',
+    'moving',
+    'waiting',
+    'drilling',
+]);
 
 // Allow cross origin requests
 app.get('*', (_req, res, next) => {
@@ -21,12 +30,19 @@ app.get('*', (_req, res, next) => {
 
 app.get('/rovers', (_req, res) => res.json(rovers).end());
 
-setTimeout(function emit_rovers() {
+setInterval(function emit_rovers() {
     io.emit('/rovers', rovers);
 }, 1000);
 
 // all other traffic
 app.get('/*', (_req, res) => res.status(404).end());
+
+// randomize state
+setInterval(function randomize_state() {
+    const opportunity = rovers.find(v => v.name === 'opportunity')
+    const currentStateIndex = Math.round(Math.random() * (states.length-2)) + 1;
+    opportunity.state = states[currentStateIndex];
+}, 1000);
 
 
 http.listen(4444, () => console.log('listening on *:4444'));

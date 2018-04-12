@@ -13,8 +13,6 @@ class App extends Component {
 
     const socket = io(apiHost, { path: '/ws' });
 
-    socket.on('connect', () => console.log('cool'));
-
     this.state = {
       rovers: []
     };
@@ -24,13 +22,21 @@ class App extends Component {
       .then(rovers => {
         this.setState({rovers: rovers});
       });
+
+    socket.on('/rovers', rovers => {
+      this.setState({rovers: rovers})
+    });
   }
 
   render() {
     return (
       <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
         <ul>
-          {this.state.rovers.map(rover => <li>{rover.name}</li> )}
+          {this.state.rovers.map(rover => <li key={rover.name}>{rover.name}, {rover.state}</li> )}
         </ul>
       </div>
     );

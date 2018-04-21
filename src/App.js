@@ -13,21 +13,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // eslint-disable-next-line no-restricted-globals
-    const apiHost = `${location.protocol}//${location.hostname}:4444`;
-
-    const socket = io(apiHost, { path: '/ws' });
+    const socket = io(this.props.apiHost, { path: '/ws' });
 
     this.state = {
-      rovers: [],
+      rovers: this.props.rovers || [],
       isNewRoverModalShown: false,
     };
-
-    fetch(apiHost + '/rovers')
-      .then(response => response.json())
-      .then(rovers => {
-        this.setState({rovers: rovers});
-      });
 
     socket.on('/rovers', rovers => {
       this.setState({rovers: rovers})

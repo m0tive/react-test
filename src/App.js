@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 import Clock from './Clock';
 import NewRoverModal from './NewRoverModal';
 import { Button } from 'react-bootstrap';
+import RoverStatus from './RoverStatus';
 
 class App extends Component {
   constructor(props) {
@@ -59,9 +60,7 @@ class App extends Component {
           <Clock />
         </header>
         <h2>Rovers</h2>
-        <ul>
-          {this.state.rovers.map(rover => <li key={rover.name}>{rover.name}, {rover.state}</li> )}
-        </ul>
+        <RoverStatus rovers={this.state.rovers} />
         <Button onClick={() => this.setState({ isNewRoverModalShown: true })} bsStyle='primary'>Show</Button>
         <NewRoverModal ref="newRoverModal"
           show={this.state.isNewRoverModalShown}

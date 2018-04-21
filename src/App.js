@@ -18,18 +18,10 @@ class App extends Component {
 
     const socket = io(apiHost, { path: '/ws' });
 
-    /*
-    this.showNewRoverModal = this.showNewRoverModal.bind(this);
-    this.closeNewRoverModal = this.closeNewRoverModal.bind(this);
-    */
-    this.closeNewRoverModal = this.closeNewRoverModal.bind(this);
-
     this.state = {
       rovers: [],
       isNewRoverModalShown: false,
     };
-
-    this.newRoverModal = React.createRef();
 
     fetch(apiHost + '/rovers')
       .then(response => response.json())
@@ -42,15 +34,6 @@ class App extends Component {
     });
   }
 
-  closeNewRoverModal() {
-    this.setState({ isNewRoverModalShown: false });
-  }
-
-  showNewRoverModal() {
-    this.setState({ isNewRoverModalShown: true });
-  }
-
-
   render() {
     return (
       <div className="App">
@@ -62,7 +45,7 @@ class App extends Component {
         <h2>Rovers</h2>
         <RoverStatus rovers={this.state.rovers} />
         <Button onClick={() => this.setState({ isNewRoverModalShown: true })} bsStyle='primary'>Show</Button>
-        <NewRoverModal ref="newRoverModal"
+        <NewRoverModal
           show={this.state.isNewRoverModalShown}
           onHide={() => this.setState({ isNewRoverModalShown: false })}/>
       </div>
